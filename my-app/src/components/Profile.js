@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
     Link,
     useLocation,
-    useParams,
     useNavigate,
+    useParams,
 } from 'react-router-dom';
 import userService from '../services/user.service';
 import { updateUser } from '../store/actions/users';
@@ -18,6 +18,7 @@ export default function Profile(props) {
 
     let { state } = useLocation();
     let dispatch = useDispatch()
+    let navigator = useNavigate()
 
     useEffect(() => {
         if (state && !isEdit) {
@@ -37,6 +38,7 @@ export default function Profile(props) {
 
     const handleUpdateUser = (row) => {
         dispatch(updateUser(row))
+        navigator('/todolist');
     }
 
     return (
@@ -181,7 +183,7 @@ export default function Profile(props) {
                     {isEdit && (
                         <div className="col-md-12 bg-light text-right mt-4">
                             <Link to={'/todolist'} ><button type="button" className="btn btn-primary mr-4">Cancel</button></Link>
-                            <Link to={'/todolist'} state={{isEdit : true, id: id}} type="button" className="btn btn-warning" onClick={() => handleUpdateUser(user)}>Save</Link>
+                            <button type="button" className="btn btn-warning" onClick={() => handleUpdateUser(user)}>Save</button>
                         </div>
                     )}
                 </div>

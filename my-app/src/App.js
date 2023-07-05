@@ -4,14 +4,12 @@ import './App.css';
 import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import TodoList from "./components/TodoList";
-import { useState } from "react";
+import AddUser from "./components/AddUser"
 
 
 function App() {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const [isEdit, setIsEdit] = useState(false);
-  const { user: currentUser } = useSelector((state) => state.auth)
 
   return (
     <div className="App">
@@ -23,6 +21,9 @@ function App() {
           )}
           {isLoggedIn && (
             <Route path="/todoList" element={<TodoList />} />
+          )}
+          {isLoggedIn && (
+            <Route path="/add" element={<AddUser />} />
           )}
         </Routes>
       </BrowserRouter>

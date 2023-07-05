@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import userService from '../services/user.service'
 import { logout } from '../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser, getAllUser } from '../store/actions/users'
@@ -10,7 +9,6 @@ export default function TodoList({ route }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const [isEdit, setEdit] = useState(false);
     const { userList: users } = useSelector((state) => state.users)
     
     const location = useLocation();
@@ -19,13 +17,13 @@ export default function TodoList({ route }) {
 
     useEffect(() => {
         dispatch(getAllUser())
-    }, [dispatch])
+    }, [])
 
     const handleDeleteUser = (row) => {
         if (!window.confirm(`Are you sure you want to delete ${row.firstName} ${row.lastName}`)) {
             return;
         }
-        dispatch(deleteUser(row))
+        dispatch(deleteUser(row.id))
     }
 
     const logOut = useCallback(() => {
@@ -54,7 +52,7 @@ export default function TodoList({ route }) {
                             <div className="col-sm-7">
                                 <Link to={'/'} className="btn btn-secondary" onClick={logOut}><i className="material-icons">logout</i> <span>Log out</span></Link>
                                 <Link to={'/profile'} className="btn btn-secondary"><i className="material-icons">account_circle</i> <span>Profile</span></Link>
-                                <Link to={''} className="btn btn-secondary"><i className="material-icons">add</i> <span>Add</span></Link>
+                                <Link to={'/add'} className="btn btn-secondary"><i className="material-icons">add</i> <span>Add</span></Link>
                             </div>
                         </div>
                     </div>
@@ -81,7 +79,7 @@ export default function TodoList({ route }) {
                                     <td>{user.phone}</td>
                                     <td className='text-nowrap overflow-hidden'>
                                         <Link to={`/profile/${user.id}`} state={{ isEdit: true }} className="settings" title="Settings" data-toggle="tooltip"><i className="material-icons">edit</i></Link>
-                                        <Link className="delete" title="Delete" data-toggle="tooltip" onClick={() => handleDeleteUser(user.id)}><i className="material-icons">delete</i></Link>
+                                        <Link className="delete" title="Delete" data-toggle="tooltip" onClick={() => handleDeleteUser(user)}><i className="material-icons">delete</i></Link>
                                     </td>
                                 </tr>
                             ))}

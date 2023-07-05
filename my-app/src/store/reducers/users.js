@@ -1,7 +1,7 @@
 import {
     DELETE_USER,
     GET_USER,
-    UPDATE_USER,ADD_USER
+    UPDATE_USER, ADD_USER
 } from "../actions/types";
 
 const initialState = {
@@ -19,8 +19,10 @@ export default function (state = initialState, action) {
                 userList: payload,
             }
         case ADD_USER:
+            let temp1 = [...state.userList, payload];
+            console.log(temp1);
             return {
-                userList: state.userList.push(payload)
+                userList: [...state.userList, payload]
             }
 
         case DELETE_USER:
@@ -31,7 +33,6 @@ export default function (state = initialState, action) {
             let temp = state.userList.map((item) => {
                 return (item.id === payload.id) ? payload : item
             })
-            console.log(temp);
             return {
                 ...state,
                 userList: temp,

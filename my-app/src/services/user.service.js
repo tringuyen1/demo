@@ -12,6 +12,10 @@ const getAllUsers = () => {
     return axios.get(API_URL + 'users')
 }
 
+const addUser = (user) => {
+    return axios.post(API_URL + "users/add", { user })
+}
+
 const deleteUser = (userId) => {
     return axios.delete(API_URL + `users/${userId}`);
 }
@@ -25,6 +29,7 @@ const updateUser = (user) => {
 export default {
     getAllUsers,
     getUser,
+    addUser,
     deleteUser,
     updateUser
 }

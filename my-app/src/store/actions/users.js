@@ -2,7 +2,8 @@
 import {
     DELETE_USER,
     UPDATE_USER,
-    GET_USER
+    GET_USER,
+    ADD_USER
 } from "../actions/types";
 
 import userService from "../../services/user.service";
@@ -14,6 +15,16 @@ export const getAllUser = () => (dispatch) => {
         dispatch({
             type: GET_USER,
             payload: data.users
+        })
+    }).catch((error) => console.error(error));
+}
+
+export const addUser = (user) => (dispatch) => {
+    userService.addUser(user).then((response) => {
+        console.log(user);
+        dispatch({
+            type: ADD_USER,
+            payload: user
         })
     }).catch((error) => console.error(error));
 }
