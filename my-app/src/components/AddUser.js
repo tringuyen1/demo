@@ -6,6 +6,8 @@ import {
   // useParams,
   useNavigate,
 } from 'react-router-dom';
+import { useValidator } from "../validation/useValidator";
+import styles from "../validation/LoginForm.module.css";
 import { addUser } from '../store/actions/users';
 
 export default function AddUser() {
@@ -14,10 +16,36 @@ export default function AddUser() {
 
   let dispatch = useDispatch();
   let navigator = useNavigate();
-  let id = Math.floor(Math.random() * 100)
+
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    gender: ""
+  });
+  const { errors, validateFormAdd, onBlurFieldAdd } = useValidator(form);
+
+  const onUpdateField = e => {
+    const field = e.target.name;
+    const nextFormState = {
+      ...form,
+      [field]: e.target.value,
+    };
+    setForm(nextFormState);
+    if (errors[field].dirty)
+      validateFormAdd({
+        form: nextFormState,
+        errors,
+        field,
+      });
+  };
 
   const handleAddUser = (user) => {
-    console.log(user);
+    const { isValid } = validateFormAdd({ form, errors, forceTouchErrors: true });
+    if (!isValid) {
+      return;
+    }
     dispatch(addUser(user))
     navigator('/todolist')
   }
@@ -39,10 +67,17 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0"
-                      value={user.firstName}
-                      onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+                      className="text-muted mb-0 mr-3"
+                      name='firstName'
+                      value={form.firstName}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
                     />
+                    {errors.firstName.dirty && errors.firstName.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.firstName.message}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <hr />
@@ -53,10 +88,17 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0"
-                      value={user.lastName}
-                      onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+                      className="text-muted mb-0 mr-3"
+                      name='lastName'
+                      value={form.lastName}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
                     />
+                    {errors.lastName.dirty && errors.lastName.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.lastName.message}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <hr />
@@ -67,10 +109,17 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0"
-                      value={user.username}
-                      onChange={(e) => setUser({ ...user, username: e.target.value })}
+                      className="text-muted mb-0 mr-3"
+                      name='username'
+                      value={form.username}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
                     />
+                    {errors.username.dirty && errors.username.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.username.message}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <hr />
@@ -81,10 +130,17 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0"
-                      value={user.email}
-                      onChange={(e) => setUser({ ...user, email: e.target.value })}
+                      className="text-muted mb-0 mr-3"
+                      name='email'
+                      value={form.email}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
                     />
+                    {errors.email.dirty && errors.email.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.email.message}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <hr />
@@ -95,10 +151,17 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0"
-                      value={user.gender}
-                      onChange={(e) => setUser({ ...user, gender: e.target.value })}
+                      className="text-muted mb-0 mr-3"
+                      name='gender'
+                      value={form.gender}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
                     />
+                    {errors.gender.dirty && errors.gender.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.gender.message}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
 
@@ -107,7 +170,7 @@ export default function AddUser() {
           </div>
           <div className="col-md-12 bg-light text-right mt-4">
             <Link to={'/todolist'} ><button type="button" className="btn btn-primary mr-4">Cancel</button></Link>
-            <button type="button" className="btn btn-warning" onClick={() => handleAddUser(user)}>Add</button>
+            <button type="button" className="btn btn-warning" onClick={() => handleAddUser(form)}>Add</button>
           </div>
         </div>
       </div>

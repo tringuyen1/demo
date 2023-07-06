@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { login } from '../store/actions/auth';
+import { useValidator } from "../validation/useValidator";
+import styles from "../validation/LoginForm.module.css";
 
-// import { login } from '../store/actions/auth';
 
 const LoginForm = (props) => {
 
@@ -11,28 +12,40 @@ const LoginForm = (props) => {
 
     const { isLoggedIn } = useSelector((state) => state.auth)
 
-    console.log(isLoggedIn);
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
 
-    const handleUserNameChange = (e) => {
-        const username = e.target.value;
-        setUsername(username);
-    }
+    const [form, setForm] = useState({
+        username: "",
+        password: "",
+    });
+    const { errors, validateForm, onBlurField } = useValidator(form);
 
-    const handlePasswordChange = (e) => {
-        const password = e.target.value;
-        setPassword(password);
-    }
+    const onUpdateField = e => {
+        const field = e.target.name;
+        const nextFormState = {
+            ...form,
+            [field]: e.target.value,
+        };
+        setForm(nextFormState);
+        if (errors[field].dirty)
+            validateForm({
+                form: nextFormState,
+                errors,
+                field,
+            });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        dispatch(login(username, password))
+        const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
+        if (!isValid) {
+            setLoading(false)
+            return;
+        }
+        dispatch(login(form.username, form.password))
             .then(() => {
                 navigate("/todolist");
                 window.location.reload();
@@ -40,6 +53,18 @@ const LoginForm = (props) => {
             .catch(() => {
                 setLoading(false)
             })
+    }
+
+    const messageError = (field) => {
+        if (errors.field.dirty && errors.field.error) {
+            return (
+                <p className={styles.formFieldErrorMessage}>
+                    {errors.field.message}
+                </p>
+            )
+        } else {
+            return null;
+        }
     }
 
     if (isLoggedIn) {
@@ -53,13 +78,39 @@ const LoginForm = (props) => {
                     <h1 className='mb-3'>Login</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="form-outline mb-4">
-                            <input type="text" id="form2Example1" className="form-control" value={props.username} onChange={handleUserNameChange} />
                             <label className="form-label" htmlFor="form2Example1">User Name</label>
+                            <input
+                                type="text"
+                                id="form2Example1"
+                                name="username"
+                                className="form-control"
+                                value={form.username}
+                                onChange={onUpdateField}
+                                onBlur={onBlurField}
+                            />
+                            {errors.username.dirty && errors.username.error ? (
+                                <p className={styles.formFieldErrorMessage}>
+                                    {errors.username.message}
+                                </p>
+                            ) : null}
                         </div>
 
                         <div className="form-outline mb-4">
-                            <input type="password" id="form2Example2" className="form-control" value={props.password} onChange={handlePasswordChange} />
                             <label className="form-label" htmlFor="form2Example2">Password</label>
+                            <input
+                                type="password"
+                                id="form2Example2"
+                                name="password"
+                                className="form-control"
+                                value={form.password}
+                                onChange={onUpdateField}
+                                onBlur={onBlurField}
+                            />
+                            {errors.password.dirty && errors.password.error ? (
+                                <p className={styles.formFieldErrorMessage}>
+                                    {errors.password.message}
+                                </p>
+                            ) : null}
                         </div>
 
                         <div className="row mb-4">
