@@ -201,7 +201,7 @@ table.table .avatar {
   font-weight: 500;
 }
 
-.rowCenter{
+.row-center{
     height: 100%;
     display: flex;
     align-items: center;

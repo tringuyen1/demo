@@ -57,7 +57,7 @@ export default function AddUser() {
         <div className='mb-4'>
           <Link to={'/todolist'} className='mt-1'>Go back</Link>
         </div>
-        <div className="row rowCenter">
+        <div className="row row-center">
           <div className="col-lg-8">
             <div className="card mb-4">
               <div className="card-body">
