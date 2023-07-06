@@ -33,8 +33,8 @@ export default function (state = initialState, action) {
             let temp = state.userList.map((item) => {
                 return (item.id === payload.id) ? payload : item
             })
+            console.log(temp);
             return {
-                ...state,
                 userList: temp,
             }
         default:

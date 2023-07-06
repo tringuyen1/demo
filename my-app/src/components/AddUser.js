@@ -14,6 +14,7 @@ export default function AddUser() {
 
   let dispatch = useDispatch();
   let navigator = useNavigate();
+  let id = Math.floor(Math.random() * 100)
 
   const handleAddUser = (user) => {
     console.log(user);

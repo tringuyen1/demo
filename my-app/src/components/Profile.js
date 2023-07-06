@@ -15,6 +15,8 @@ export default function Profile(props) {
     const [user, setUser] = useState({})
     const [isEdit, setEdit] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth)
+    const { userList: users } = useSelector((state) => state.users)
+    console.log("user", user);
 
     let { state } = useLocation();
     let dispatch = useDispatch()
@@ -28,9 +30,8 @@ export default function Profile(props) {
 
     useEffect(() => {
         if (id) {
-            userService.getUser(id).then((response) => {
-                setUser(response.data)
-            })
+            const newUser = users.find((user) => user.id == id);
+            setUser(newUser);
         } else {
             setUser(currentUser)
         }
@@ -38,7 +39,9 @@ export default function Profile(props) {
 
     const handleUpdateUser = (row) => {
         dispatch(updateUser(row))
-        navigator('/todolist');
+        navigator('/todolist', {
+            state: row
+        });
     }
 
     return (
@@ -47,7 +50,7 @@ export default function Profile(props) {
                 <div className='mb-4'>
                     <Link to={'/todolist'} className='mt-1'>Go back</Link>
                 </div>
-                <div className="row">
+                {user && <div className="row">
                     <div className="col-lg-4">
                         <div className="card mb-4">
                             <div className="card-body text-center">
@@ -186,7 +189,8 @@ export default function Profile(props) {
                             <button type="button" className="btn btn-warning" onClick={() => handleUpdateUser(user)}>Save</button>
                         </div>
                     )}
-                </div>
+                </div>}
+
             </div>
         </section>
     )

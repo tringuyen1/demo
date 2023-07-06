@@ -21,6 +21,7 @@ export const getAllUser = () => (dispatch) => {
 
 export const addUser = (user) => (dispatch) => {
     userService.addUser(user).then((response) => {
+        user.id = Math.floor(Math.random() * 100)
         console.log(user);
         dispatch({
             type: ADD_USER,

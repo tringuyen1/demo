@@ -9,14 +9,19 @@ export default function TodoList({ route }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const { userList: users } = useSelector((state) => state.users)
-    
-    const location = useLocation();
-    console.log(location.state?.id);
-    let dispatch = useDispatch()
 
+    const { userList: users } = useSelector((state) => state.users)
+    // const { userEdit: userEdit } = useSelector((state) => state.users)
+    // console.log(userEdit);
+
+    const location = useLocation();
+
+    let dispatch = useDispatch()
+   
     useEffect(() => {
-        dispatch(getAllUser())
+        if(users.length === 0){
+            dispatch(getAllUser())
+        }
     }, [])
 
     const handleDeleteUser = (row) => {
@@ -69,7 +74,7 @@ export default function TodoList({ route }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentItems.map((user, index) => (
+                            {currentItems.map((user,index) => (
                                 <tr key={user.id}>
                                     <td>{index + 1}</td>
                                     <td><Link to={`/profile/${user.id}`}><img src={user.image} className="avatar" alt="Avatar" style={{ width: '10%' }} /> {user.firstName + " " + user.lastName}</Link></td>
