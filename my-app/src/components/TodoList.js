@@ -66,7 +66,7 @@ export default function TodoList({ route }) {
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Date Created</th>
+                                <th>Birth Date</th>
                                 <th>email</th>
                                 <th>gender</th>
                                 <th>phone</th>

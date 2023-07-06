@@ -22,7 +22,7 @@ export default function AddUser() {
     email: "",
     gender: "",
     image: "",
-    created: "2003-08-02"
+    birthDate: "2003-08-02"
   });
   const { errors, validateFormAdd, onBlurFieldAdd } = useValidator(form);
 
@@ -46,9 +46,8 @@ export default function AddUser() {
     if (!isValid) {
       return;
     }
-    console.log(user);
-    // dispatch(addUser(user))
-    // navigator('/todolist')
+    dispatch(addUser(user))
+    navigator('/todolist')
   }
 
   return (
