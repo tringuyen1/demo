@@ -200,3 +200,10 @@ table.table .avatar {
   text-transform: uppercase;
   font-weight: 500;
 }
+
+.rowCenter{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

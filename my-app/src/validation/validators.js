@@ -52,3 +52,17 @@ export const passwordValidator = (password) => {
     return '';
 };
 
+export const imageValidator = (image) => {
+    if (!image) {
+        return 'Image is required';
+    }
+    return '';
+};
+
+export const phoneValidator = (phone) => {
+    if (!phone) {
+        return 'Phone is required';
+    }
+    return '';
+};
+

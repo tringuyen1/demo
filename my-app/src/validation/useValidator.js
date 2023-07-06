@@ -6,7 +6,9 @@ import {
     firstNameValidator,
     lastNameValidator,
     emailValidator,
-    genderValidator
+    genderValidator,
+    imageValidator,
+    phoneValidator
 } from "./validators";
 
 const touchErrors = errors => {
@@ -47,6 +49,16 @@ export const useValidator = form => {
             message: "",
         },
         gender: {
+            dirty: false,
+            error: false,
+            message: "",
+        },
+        image: {
+            dirty: false,
+            error: false,
+            message: "",
+        },
+        phone: {
             dirty: false,
             error: false,
             message: "",
@@ -134,6 +146,20 @@ export const useValidator = form => {
             nextErrors.gender.error = !!genderMessage;
             nextErrors.gender.message = genderMessage;
             if (!!genderMessage) isValid = false;
+        }
+
+        if (nextErrors.image.dirty && (field ? field === "image" : true)) {
+            const imageMessage = imageValidator(gender, form);
+            nextErrors.image.error = !!imageMessage;
+            nextErrors.image.message = imageMessage;
+            if (!!imageMessage) isValid = false;
+        }
+
+        if (nextErrors.phone.dirty && (field ? field === "phone" : true)) {
+            const phoneMessage = phoneValidator(gender, form);
+            nextErrors.phone.error = !!phoneMessage;
+            nextErrors.phone.message = phoneMessage;
+            if (!!phoneMessage) isValid = false;
         }
 
         setErrors(nextErrors);

@@ -12,8 +12,6 @@ import { addUser } from '../store/actions/users';
 
 export default function AddUser() {
 
-  const [user, setUser] = useState({});
-
   let dispatch = useDispatch();
   let navigator = useNavigate();
 
@@ -22,7 +20,9 @@ export default function AddUser() {
     lastName: "",
     username: "",
     email: "",
-    gender: ""
+    gender: "",
+    image: "",
+    created: "2003-08-02"
   });
   const { errors, validateFormAdd, onBlurFieldAdd } = useValidator(form);
 
@@ -46,8 +46,9 @@ export default function AddUser() {
     if (!isValid) {
       return;
     }
-    dispatch(addUser(user))
-    navigator('/todolist')
+    console.log(user);
+    // dispatch(addUser(user))
+    // navigator('/todolist')
   }
 
   return (
@@ -56,10 +57,31 @@ export default function AddUser() {
         <div className='mb-4'>
           <Link to={'/todolist'} className='mt-1'>Go back</Link>
         </div>
-        <div className="row">
+        <div className="row rowCenter">
           <div className="col-lg-8">
             <div className="card mb-4">
               <div className="card-body">
+                <div className="row">
+                  <div className="col-sm-3">
+                    <p className="mb-0">Image</p>
+                  </div>
+                  <div className="col-sm-9">
+                    <input
+                      type='text'
+                      className="text-muted mb-0 mr-3"
+                      name='image'
+                      value={form.image}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
+                    />
+                    {errors.image.dirty && errors.image.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.image.message}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+                <hr />
                 <div className="row">
                   <div className="col-sm-3">
                     <p className="mb-0">First Name</p>
@@ -164,14 +186,34 @@ export default function AddUser() {
                     ) : null}
                   </div>
                 </div>
-
+                <hr />
+                <div className="row">
+                  <div className="col-sm-3">
+                    <p className="mb-0">Phone</p>
+                  </div>
+                  <div className="col-sm-9">
+                    <input
+                      type='text'
+                      className="text-muted mb-0 mr-3"
+                      name='phone'
+                      value={form.phone}
+                      onChange={onUpdateField}
+                      onBlur={onBlurFieldAdd}
+                    />
+                    {errors.phone.dirty && errors.phone.error ? (
+                      <p className={styles.formFieldErrorMessage}>
+                        {errors.phone.message}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-md-12 bg-light text-right mt-4">
-            <Link to={'/todolist'} ><button type="button" className="btn btn-primary mr-4">Cancel</button></Link>
-            <button type="button" className="btn btn-warning" onClick={() => handleAddUser(form)}>Add</button>
-          </div>
+        </div>
+        <div className="col-md-12 text-right mt-4">
+          <Link to={'/todolist'} ><button type="button" className="btn btn-primary mr-4">Cancel</button></Link>
+          <button type="button" className="btn btn-warning" onClick={() => handleAddUser(form)}>Add</button>
         </div>
       </div>
     </section>
