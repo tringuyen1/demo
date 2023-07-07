@@ -6,7 +6,6 @@ import {
     useNavigate,
     useParams,
 } from 'react-router-dom';
-import userService from '../services/user.service';
 import { updateUser } from '../store/actions/users';
 
 export default function Profile(props) {
@@ -35,7 +34,7 @@ export default function Profile(props) {
         } else {
             setUser(currentUser)
         }
-    }, [currentUser, id])
+    }, [])
 
     const handleUpdateUser = (row) => {
         dispatch(updateUser(row))
@@ -184,7 +183,7 @@ export default function Profile(props) {
                         </div>
                     </div>
                     {isEdit && (
-                        <div className="col-md-12 bg-light text-right mt-4">
+                        <div className="col-md-12 text-right mt-4">
                             <Link to={'/todolist'} ><button type="button" className="btn btn-primary mr-4">Cancel</button></Link>
                             <button type="button" className="btn btn-warning" onClick={() => handleUpdateUser(user)}>Save</button>
                         </div>
