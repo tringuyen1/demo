@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { logout } from '../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser, getAllUser } from '../store/actions/users'
@@ -11,10 +11,6 @@ export default function TodoList({ route }) {
     const itemsPerPage = 10;
 
     const { userList: users } = useSelector((state) => state.users)
-    // const { userEdit: userEdit } = useSelector((state) => state.users)
-    // console.log(userEdit);
-
-    const location = useLocation();
 
     let dispatch = useDispatch()
    
@@ -88,7 +84,6 @@ export default function TodoList({ route }) {
                                     </td>
                                 </tr>
                             ))}
-
                         </tbody>
                     </table>
                     <div className="clearfix">
@@ -98,7 +93,7 @@ export default function TodoList({ route }) {
 
                             {/* Page numbers */}
                             {Array.from({ length: totalPages }, (_, index) => (
-                                <li className="page-item">
+                                <li className="page-item" key={index + 1}>
                                     <button
                                         key={index + 1}
                                         onClick={() => handlePageChange(index + 1)}

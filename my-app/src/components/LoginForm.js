@@ -125,10 +125,6 @@ const LoginForm = (props) => {
                                 </div>
                             </div>
 
-                            <div className="col">
-
-                                <a href="#!">Forgot password?</a>
-                            </div>
                         </div>
 
                         <div className="form-group">
@@ -140,9 +136,6 @@ const LoginForm = (props) => {
                             </button>
                         </div>
 
-                        <div className="text-center">
-                            <p>Not a member? <a href="#!">Register</a></p>
-                        </div>
                     </form>
                 </div>
             </div>
