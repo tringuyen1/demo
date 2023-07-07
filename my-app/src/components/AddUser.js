@@ -6,8 +6,9 @@ import {
   // useParams,
   useNavigate,
 } from 'react-router-dom';
+import clsx from "clsx"
 import { useValidator } from "../validation/useValidator";
-import styles from "../validation/LoginForm.module.css";
+import styles from "../validation/Form.module.css";
 import { addUser } from '../store/actions/users';
 
 export default function AddUser() {
@@ -22,7 +23,7 @@ export default function AddUser() {
     email: "",
     gender: "",
     image: "",
-    birthDate: "2003-08-02"
+    birthDate: new Date().toISOString().slice(0, 10)
   });
   const { errors, validateFormAdd, onBlurFieldAdd } = useValidator(form);
 
@@ -50,6 +51,29 @@ export default function AddUser() {
     navigator('/todolist')
   }
 
+  const messageError = (field) => {
+    if (field.dirty && field.error) {
+      return (
+        <p className={styles.formFieldErrorMessage}>
+          {field.message}
+        </p>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  const classNameError = (field) => {
+    return (
+      clsx(
+        'text-muted mb-0 mr-3',
+        field.dirty &&
+        field.error &&
+        styles.formFieldError
+      )
+    )
+  }
+
   return (
     <section>
       <div className="container py-5">
@@ -67,17 +91,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.image)}
                       name='image'
                       value={form.image}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.image.dirty && errors.image.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.image.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.image)}
                   </div>
                 </div>
                 <hr />
@@ -88,17 +108,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.firstName)}
                       name='firstName'
                       value={form.firstName}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.firstName.dirty && errors.firstName.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.firstName.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.firstName)}
                   </div>
                 </div>
                 <hr />
@@ -109,17 +125,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.lastName)}
                       name='lastName'
                       value={form.lastName}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.lastName.dirty && errors.lastName.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.lastName.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.lastName)}
                   </div>
                 </div>
                 <hr />
@@ -130,17 +142,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.username)}
                       name='username'
                       value={form.username}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.username.dirty && errors.username.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.username.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.username)}
                   </div>
                 </div>
                 <hr />
@@ -151,17 +159,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.email)}
                       name='email'
                       value={form.email}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.email.dirty && errors.email.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.email.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.email)}
                   </div>
                 </div>
                 <hr />
@@ -172,17 +176,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.gender)}
                       name='gender'
                       value={form.gender}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.gender.dirty && errors.gender.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.gender.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.gender)}
                   </div>
                 </div>
                 <hr />
@@ -193,17 +193,13 @@ export default function AddUser() {
                   <div className="col-sm-9">
                     <input
                       type='text'
-                      className="text-muted mb-0 mr-3"
+                      className={classNameError(errors.phone)}
                       name='phone'
                       value={form.phone}
                       onChange={onUpdateField}
                       onBlur={onBlurFieldAdd}
                     />
-                    {errors.phone.dirty && errors.phone.error ? (
-                      <p className={styles.formFieldErrorMessage}>
-                        {errors.phone.message}
-                      </p>
-                    ) : null}
+                    {messageError(errors.phone)}
                   </div>
                 </div>
               </div>

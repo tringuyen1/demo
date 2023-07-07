@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { login } from '../store/actions/auth';
 import { useValidator } from "../validation/useValidator";
-import styles from "../validation/LoginForm.module.css";
-
+import styles from "../validation/Form.module.css";
+import clsx from "clsx"
 
 const LoginForm = (props) => {
 
@@ -56,15 +56,26 @@ const LoginForm = (props) => {
     }
 
     const messageError = (field) => {
-        if (errors.field.dirty && errors.field.error) {
+        if (field.dirty && field.error) {
             return (
                 <p className={styles.formFieldErrorMessage}>
-                    {errors.field.message}
+                    {field.message}
                 </p>
             )
         } else {
             return null;
         }
+    }
+
+    const classNameError = (field) => {
+        return (
+            clsx(
+                'form-control',
+                field.dirty &&
+                field.error &&
+                styles.formFieldError
+            )
+        )
     }
 
     if (isLoggedIn) {
@@ -83,16 +94,12 @@ const LoginForm = (props) => {
                                 type="text"
                                 id="form2Example1"
                                 name="username"
-                                className="form-control"
+                                className={classNameError(errors.username)}
                                 value={form.username}
                                 onChange={onUpdateField}
                                 onBlur={onBlurField}
                             />
-                            {errors.username.dirty && errors.username.error ? (
-                                <p className={styles.formFieldErrorMessage}>
-                                    {errors.username.message}
-                                </p>
-                            ) : null}
+                            {messageError(errors.username)}
                         </div>
 
                         <div className="form-outline mb-4">
@@ -101,16 +108,12 @@ const LoginForm = (props) => {
                                 type="password"
                                 id="form2Example2"
                                 name="password"
-                                className="form-control"
+                                className={classNameError(errors.password)}
                                 value={form.password}
                                 onChange={onUpdateField}
                                 onBlur={onBlurField}
                             />
-                            {errors.password.dirty && errors.password.error ? (
-                                <p className={styles.formFieldErrorMessage}>
-                                    {errors.password.message}
-                                </p>
-                            ) : null}
+                            {messageError(errors.password)}
                         </div>
 
                         <div className="row mb-4">
