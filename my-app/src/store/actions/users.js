@@ -46,6 +46,5 @@ export const updateUser = (user) => (dispatch) => {
             type: UPDATE_USER,
             payload: user
         })
-    })
-        .catch((error) => console.error(error));
+    }).catch((error) => console.error(error));
 }

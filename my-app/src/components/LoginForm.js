@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { login } from '../store/actions/auth';
 import { useValidator } from "../validation/useValidator";
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify';
 import styles from "../validation/Form.module.css";
-import clsx from "clsx"
+import clsx from "clsx";
 
 const LoginForm = (props) => {
 
@@ -48,10 +50,19 @@ const LoginForm = (props) => {
         dispatch(login(form.username, form.password))
             .then(() => {
                 navigate("/todolist");
-                window.location.reload();
             })
             .catch(() => {
                 setLoading(false)
+                toast.error('Login Fail!', {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             })
     }
 
@@ -135,7 +146,7 @@ const LoginForm = (props) => {
                                 <span>Login</span>
                             </button>
                         </div>
-
+                        <ToastContainer />
                     </form>
                 </div>
             </div>

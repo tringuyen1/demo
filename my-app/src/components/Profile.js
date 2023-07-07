@@ -29,7 +29,7 @@ export default function Profile(props) {
 
     useEffect(() => {
         if (id) {
-            const newUser = users.find((user) => user.id == id);
+            const newUser = users.find((user) => user.id === Number(id));
             setUser(newUser);
         } else {
             setUser(currentUser)
@@ -189,7 +189,6 @@ export default function Profile(props) {
                         </div>
                     )}
                 </div>}
-
             </div>
         </section>
     )

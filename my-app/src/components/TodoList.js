@@ -1,21 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { logout } from '../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser, getAllUser } from '../store/actions/users'
-
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function TodoList({ route }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    const location = useLocation()
+
     const { userList: users } = useSelector((state) => state.users)
 
     let dispatch = useDispatch()
-   
+
+    
+
     useEffect(() => {
-        if(users.length === 0){
+        if (users.length === 0) {
             dispatch(getAllUser())
         }
     }, [])
@@ -25,6 +30,16 @@ export default function TodoList({ route }) {
             return;
         }
         dispatch(deleteUser(row.id))
+        toast.success('Delete success!', {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     const logOut = useCallback(() => {
@@ -70,7 +85,7 @@ export default function TodoList({ route }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentItems.map((user,index) => (
+                            {currentItems.map((user, index) => (
                                 <tr key={user.id}>
                                     <td>{index + 1}</td>
                                     <td><Link to={`/profile/${user.id}`}><img src={user.image} className="avatar" alt="Avatar" style={{ width: '10%' }} /> {user.firstName + " " + user.lastName}</Link></td>
@@ -107,6 +122,7 @@ export default function TodoList({ route }) {
                             <li className="page-item"><button href="#" className="page-link" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button></li>
                         </ul>
                     </div>
+                    <ToastContainer />
                 </div>
             </div>
         </div>
