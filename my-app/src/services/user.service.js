@@ -8,20 +8,20 @@ const getUser = (userId) => {
     return axios.get(API_URL + `users/${userId}`);
 }
 
-const getAllUsers = () => {
-    return axios.get(API_URL + 'users')
+const getAllUsers = async () => {
+    return await axios.get(API_URL + 'users')
 }
 
-const addUser = (user) => {
-    return axios.post(API_URL + "users/add", { user })
+const addUser = async (user) => {
+    return await axios.post(API_URL + "users/add", { user })
 }
 
-const deleteUser = (userId) => {
-    return axios.delete(API_URL + `users/${userId}`);
+const deleteUser = async (userId) => {
+    return await axios.delete(API_URL + `users/${userId}`);
 }
 
-const updateUser = (user) => {
-    return axios.put(API_URL + `users/${user.id}`, { user });
+const updateUser = async (user) => {
+    return await axios.put(API_URL + `users/${user.id}`, { user });
 }
 
 

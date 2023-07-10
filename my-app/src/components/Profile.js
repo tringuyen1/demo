@@ -34,7 +34,7 @@ export default function Profile(props) {
         } else {
             setUser(currentUser)
         }
-    }, [])
+    }, [currentUser,users,id])
 
     const handleUpdateUser = (row) => {
         dispatch(updateUser(row))

@@ -21,7 +21,7 @@ export const login = (username, password) => (dispatch) => {
             type: LOGIN_FAIL
         })
 
-        return Promise.reject();
+        return Promise.reject(error);
     })
 }
 

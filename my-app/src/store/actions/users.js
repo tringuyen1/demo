@@ -16,7 +16,10 @@ export const getAllUser = () => (dispatch) => {
             type: GET_USER,
             payload: data.users
         })
-    }).catch((error) => console.error(error));
+        return Promise.resolve(data.users)
+    }).catch((error) => {
+        return Promise.reject(error);
+    });
 }
 
 export const addUser = (user) => (dispatch) => {
@@ -26,7 +29,10 @@ export const addUser = (user) => (dispatch) => {
             type: ADD_USER,
             payload: user
         })
-    }).catch((error) => console.error(error));
+        return Promise.resolve()
+    }).catch((error) => {
+        return Promise.reject(error)
+    });
 }
 
 export const deleteUser = (userId) => (dispatch) => {
@@ -36,7 +42,10 @@ export const deleteUser = (userId) => (dispatch) => {
             type: DELETE_USER,
             payload: userId
         })
-    }).catch((error) => console.error(error));
+        return Promise.resolve()
+    }).catch((error) => {
+        return Promise.reject(error)
+    });
 }
 
 export const updateUser = (user) => (dispatch) => {
@@ -46,5 +55,8 @@ export const updateUser = (user) => (dispatch) => {
             type: UPDATE_USER,
             payload: user
         })
-    }).catch((error) => console.error(error));
+        return Promise.resolve()
+    }).catch((error) => {
+        return Promise.reject(error)
+    });
 }

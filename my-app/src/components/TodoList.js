@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { logout } from '../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser, getAllUser } from '../store/actions/users'
@@ -11,19 +11,15 @@ export default function TodoList({ route }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const location = useLocation()
-
     const { userList: users } = useSelector((state) => state.users)
 
     let dispatch = useDispatch()
 
-    
-
     useEffect(() => {
-        if (users.length === 0) {
+        if (!users.length) {
             dispatch(getAllUser())
         }
-    }, [])
+    }, [users, dispatch])
 
     const handleDeleteUser = (row) => {
         if (!window.confirm(`Are you sure you want to delete ${row.firstName} ${row.lastName}`)) {
